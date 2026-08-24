@@ -1,10 +1,50 @@
 spring:
+  application:
+    name: team-access-api
+  
   datasource:
-    url: jdbc:postgresql://localhost:5432/team_access_db
-    username: postgres
-    password: postgres
-    driver-class-name: org.postgresql.Driver
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  
+  h2:
+    console:
+      enabled: true
+  
   jpa:
     hibernate:
-      ddl-auto: update
-    show-sql: true
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: true
+  
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      timeout: 60000ms
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+jwt:
+  secret: your-super-secret-jwt-key-change-this-in-production-at-least-256-bits-long-for-hs256-algorithm
+  expiration: 900000
+  refresh-expiration: 604800000
+
+logging:
+  level:
+    root: INFO
+    com.teamaccess: DEBUG
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
